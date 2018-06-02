@@ -8,6 +8,9 @@ public abstract class Persona implements Serializable{
 	private String domicilio;
 	
 	public Persona(String nombreCompleto, String dni, String domicilio) {
+		/*
+		 * CONSTRUCTOR
+		 */
 		this.nombreCompleto = nombreCompleto;
 		this.dni = dni;
 		this.domicilio = domicilio;

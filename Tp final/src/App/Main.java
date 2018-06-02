@@ -13,6 +13,9 @@ import Clases.Habitacion.TipoHabitacion;;
 public class Main {
 
 	public static void main(String[] args) {
+		
+		
+		
 		/*LocalDate fechaInicio = LocalDate.of(2018, 12, 25);
 		LocalDate fechaFin = LocalDate.of(2019, 01, 10);
 		int contador = 0;
@@ -63,11 +66,32 @@ public class Main {
 		
 		System.out.println(habitacion.habitacionDisponible(nueva));*/
 		
-
-		
-		
-		
-		
+		/*BaseDeDatos<String, Cliente> archivoClientes = new BaseDeDatos<String,Cliente>("clientes.dat");
+		HashMap<String, Cliente> clientes = new HashMap<String,Cliente>();
+		clientes.put("40794525", new Cliente("mdp", "Federico Elias", "40794525", "garay 5253"));
+		clientes.put("40942975", new Cliente("pinamar", "Maia Luques", "409429752", "garay 5253"));
+		archivoClientes.escribirArchivo(clientes);
+		HashMap<String, Cliente> nuevo = archivoClientes.leerArchivo();
+		Iterator<Entry<String, Cliente>> it = nuevo.entrySet().iterator();
+		while(it.hasNext()) {
+			Entry<String, Cliente> mapa = (Entry<String, Cliente>)it.next();
+			Cliente cliente = mapa.getValue();
+			System.out.println(cliente.toString());
+		}
+		System.out.println("------------------------------");
+		System.out.println("------------------------------");
+		System.out.println("------------------------------");
+		clientes.put("17128073", new Cliente("mdp", "Ariel Elias", "18127073", "garay"));
+		archivoClientes.escribirArchivo(clientes);
+		HashMap<String, Cliente> nuevo3 = archivoClientes.leerArchivo();
+		Iterator<Entry<String, Cliente>> it2 = nuevo3.entrySet().iterator();
+		while(it2.hasNext()) {
+			Entry<String, Cliente> mapa2 = (Entry<String, Cliente>)it2.next();
+			Cliente cliente2 = mapa2.getValue();
+			System.out.println(cliente2.toString());
+		}*/
 	}
+
+
 
 }

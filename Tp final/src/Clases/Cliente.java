@@ -4,6 +4,9 @@ public class Cliente extends Persona {
 	private String origen;
 	
 	public Cliente(String origen, String nombreCompleto, String dni, String domicilio) {
+		/*
+		 * CONSTRUCTOR DEL CLIENTE
+		 */
 		super(nombreCompleto, dni, domicilio);
 		this.origen = origen;
 	}

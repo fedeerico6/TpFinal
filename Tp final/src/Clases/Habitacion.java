@@ -13,6 +13,9 @@ public class Habitacion implements Serializable {
 	private HashSet<Reserva> reservas;
 	
 	public Habitacion() {
+		/*
+		 * CONSTRUCTOR DE LA HABITACION VACIO, INICIALIZA TODAS SUS VARIABLES
+		 */
 		this.tipo = null;
 		this.numero = 0;
 		this.precio = 0;
@@ -23,6 +26,9 @@ public class Habitacion implements Serializable {
 	}
 	
 	public Habitacion(TipoHabitacion tipo, double precio,int numero) {
+		/*
+		 * CONSTRUCTOR EN LA CUAL SE RECIBE UN TIPO DE HABITACION EL PRECIO Y EL NUMERO DE LA HABITACION.
+		 */
 		this.tipo = tipo;
 		this.numero = numero;
 		this.precio = precio;
@@ -33,6 +39,9 @@ public class Habitacion implements Serializable {
 	}
 	
 	public enum TipoHabitacion {
+		/*
+		 *  ENUMERACION EN LA CUAL FIGURA QUE TIPOS DE HABITACIONES SE ENCUENTRAN EN EL HOTEL
+		 */
 		SIMPLE,
 		DOBLE,
 		TRIPLE,
@@ -41,6 +50,9 @@ public class Habitacion implements Serializable {
 	}
 	
 	public enum Disponibilidad{
+		/*
+		 * ENUMERACION QUE TE DICE EN QUE ESTADO ESTA LA HABITACION
+		 */
 		DISPONIBLE,
 		LIMPIEZA,
 		DESINFECCION,
@@ -107,6 +119,10 @@ public class Habitacion implements Serializable {
 	}
 	
 	public boolean fechaDisponible(Reserva reserva, Reserva comprobar) {
+		/*
+		 * METODO EN EL CUAL RECIBE DOS RESERVAS Y EVALUA QUE 
+		 * AMBAS RESERVAS NO SE SUPERPONGAN 
+		 */
 		if(!reserva.getFechaInicio().isAfter(comprobar.getFechaFin())) {
 			if((!reserva.getFechaInicio().isBefore(comprobar.getFechaFin()))||(!reserva.getFechaFin().isBefore(comprobar.getFechaInicio()))) {
 				if((reserva.getFechaInicio().isBefore(comprobar.getFechaFin()))&&(comprobar.getFechaInicio().isBefore(reserva.getFechaFin()))) {
@@ -118,6 +134,11 @@ public class Habitacion implements Serializable {
 	}
 	
 	public boolean habitacionDisponible(Reserva comprobar) {
+		/*
+		 * METODO EN EL CUAL RECIBE UNA RESERVA PARA LUEGO COMPROBAR
+		 * EN LA LISTA DE RESERVAS DE LA HABITACION SI ESTA RESERVA 
+		 * ENVIADA POR PARAMETRO SE ENCUENTRA DISPONIBLE
+		 */
 		boolean estado = true; 
 		for(Reserva reserva: reservas) {
 			if(estado) {
