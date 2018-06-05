@@ -144,6 +144,7 @@ public class Hotel {
 	public void reservar(Reserva reserva, TipoHabitacion tipo) {
 		
 		try {
+
 			Habitacion habitacion = comprobarDisponibilidadDeReserva(reserva, tipo);
 			habitacion.setReserva(reserva);
 			reservasActivas.put("1", reserva);

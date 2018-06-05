@@ -199,6 +199,7 @@ public class Main {
 				
 				TipoHabitacion tipo = menuTipoHabitacion();
 				Reserva reserva = ingresoDeReserva();
+				hotel.reservar(reserva, tipo);
 				System.out.println("Ya se registro la reserva! ");
 				System.out.println("");
 				break;
