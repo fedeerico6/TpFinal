@@ -3,6 +3,8 @@ package Clases;
 import java.io.Serializable;
 import java.util.HashSet;
 
+import Excepciones.HabitacionesNoDisponibles;
+
 public class Habitacion implements Serializable {
 	private boolean ocupado;
 	private Disponibilidad disponible;
@@ -144,6 +146,7 @@ public class Habitacion implements Serializable {
 			if(estado) {
 				estado = fechaDisponible(reserva, comprobar);
 			}else {
+				
 				return false;
 			}
 		}

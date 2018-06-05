@@ -3,6 +3,8 @@ package Clases;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+import Excepciones.fechaIncorrecta;
+
 public class Reserva {
 	private ArrayList<Integer> habitaciones;
 	private String dni;
@@ -60,6 +62,27 @@ public class Reserva {
 	
 	public void setFechaFin(LocalDate fechaFin) {
 		this.fechaFin = fechaFin;
+	}
+	
+	public void comprobarFormatoFecha(int anio, int mes, int dia) throws fechaIncorrecta {
+		if(anio>2017 && mes<=12) {
+			if(mes == 2) {
+				if(dia>28) {
+					throw new fechaIncorrecta("Febrero no tiene mas de 28 dias");
+				}
+			} else if(mes==1 || mes==3 || mes==5 || mes==7 || mes==8 || mes==10 || mes==12) {
+				if(dia>31) {
+					throw new fechaIncorrecta("Ingreso mal el dia");
+				}
+			} else {
+				if(dia>30) {
+					throw new fechaIncorrecta("Ingreso mal el dia");
+				}
+			}
+		}
+		else {
+			throw new fechaIncorrecta("Ingreso mal el año o el mes");
+		}
 	}
 	
 }

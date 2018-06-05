@@ -5,9 +5,15 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map.Entry;
+import java.util.Scanner;
 
+import App.Main;
 import Clases.Habitacion.Disponibilidad;
 import Clases.Habitacion.TipoHabitacion;
+import Excepciones.HabitacionesNoDisponibles;
+import Excepciones.fechaIncorrecta;
+import Excepciones.paswordIncorrecto;
+import Excepciones.usuarioIncorrecto;
 
 public class Hotel {
 	private String nombre;
@@ -71,7 +77,7 @@ public class Hotel {
 		habitaciones.put(habitacion.getNumeroHabitacion(), habitacion);
 	}
 	
-	public Habitacion comprobarDisponibilidadDeReserva(Reserva comprobar, TipoHabitacion tipo) {
+	public Habitacion comprobarDisponibilidadDeReserva(Reserva comprobar, TipoHabitacion tipo) throws HabitacionesNoDisponibles {
 		/*
 		 * ESTE METODO RECIBE COMO PARAMETRO UNA RESERVA LA CUAL SE QUIERE COMPROBAR SI ESTA DISPONIBLE
 		 * TAMBIEN RECIBE UN TIPO DE HABITACION POR EJEMPLO SI LA RESERVA ES PARA UNA HABITACION DOBLE RECIBE COMO PARAMETRO DOBLE
@@ -87,7 +93,67 @@ public class Hotel {
 				}
 			}
 		}
+		if(!estado) {
+			throw new HabitacionesNoDisponibles("No hay ninguna habitacion disponible en esa fecha");
+		}
 		return null;
+	}
+	
+	public Empleado comprobarUsuario(String usuario) throws usuarioIncorrecto {
+		/*
+		 * COMPRUEBA QUE EL USUARIO INGRESADO POR EL USUARIO
+		 * SEA EL CORRECTO, EN CASO DE NO SER EL CORRECTO VUELVE A PEDIR
+		 * QUE SE INGRESE NUEVAMENTE
+		 */
+		boolean estado = false;
+		Empleado empleado = null;
+		Iterator<Entry<String,Empleado>> it = empleados.entrySet().iterator();
+		while(it.hasNext() && estado==false) {
+			Entry<String,Empleado> mapa = (Entry<String, Empleado>)it.next();
+			if(mapa.getValue().getUsuario().equals(usuario)) {
+				estado = true;
+				empleado = mapa.getValue();
+			}
+		}
+		if(estado==false) {
+			throw new usuarioIncorrecto("Usuario incorrecto");
+		}
+		return empleado;
+	}
+	
+	public void comprobarPass(String pass) throws paswordIncorrecto {
+		/*
+		 *COMPRUEBA QUE LA CONTRASEÑIA INGRESADA SEA LA CORRECTA
+		 *EN CASO DE NO SERLA VUELVE A PEDIR QUE SE INGRESE
+		 *NUEVAMENTE LA CONTRASEÑA 
+		 */
+		boolean estado = false;
+		Iterator<Entry<String,Empleado>> it = empleados.entrySet().iterator();
+		while(it.hasNext() && estado==false) {
+			Entry<String,Empleado> mapa = (Entry<String, Empleado>)it.next();
+			if(mapa.getValue().getPass().equals(pass)) {
+				estado = true;
+				
+			}
+		}
+		if(estado==false) {
+			throw new paswordIncorrecto("Contraseña incorrecto");
+		}
+	}
+
+	public void reservar(Reserva reserva, TipoHabitacion tipo) {
+		
+		try {
+			Habitacion habitacion = comprobarDisponibilidadDeReserva(reserva, tipo);
+			habitacion.setReserva(reserva);
+			reservasActivas.put("1", reserva);
+			
+		} catch (HabitacionesNoDisponibles e) {
+			System.out.println(e.getMenssage());
+			System.out.println("");
+			Main.menuConserje();
+		} 
+		
 	}
 	
 }
