@@ -95,6 +95,34 @@ public class Main {
 			Cliente cliente2 = mapa2.getValue();
 			System.out.println(cliente2.toString());
 		}*/
+		
+		//menuIngreso();
+		
+		menuConserje();
+		
+		/*Scanner scan = new Scanner(System.in);
+		System.out.println("Ingrese año mes dia en el cual desea ingresar al Hotel");
+		int anio = scan.nextInt();
+		int mes = scan.nextInt();
+		int dia = scan.nextInt();
+		System.out.println("Ingrese año mes dia en el cual egresa del Hotel");
+		int anioFin = scan.nextInt();
+		int mesFin = scan.nextInt();
+		int diaFin = scan.nextInt();
+		Reserva reserva = new Reserva();
+		try {
+			reserva.comprobarFormatoFecha(anio, mes, dia);
+			reserva.comprobarFormatoFecha(anioFin, mesFin, diaFin);
+			reserva.setFechaInicio(LocalDate.of(anio, mes, dia));
+			reserva.setFechaFin(LocalDate.of(anioFin, mesFin, diaFin));
+		} catch(fechaIncorrecta e) {
+			System.out.println(e.getMessage());
+		} catch (RuntimeException e) {
+			System.out.println("entre aca");
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+		}*/
+		
 	}
 	public static void menuIngreso() {
 		int opc = 0;
@@ -113,7 +141,7 @@ public class Main {
 				String usuario;
 				System.out.println("Usuario: ");
 				usuario = scan.next();
-				System.out.println("Contraseï¿½ia: ");
+				System.out.println("Contraseñia: ");
 				pass = scan.next();
 				
 				try {
@@ -244,11 +272,11 @@ public class Main {
 	public static Reserva ingresoDeReserva() {
 		Scanner scan = new Scanner(System.in);
 		int anio = 0, mes = 0, dia = 0;
-		System.out.println("Ingrese aï¿½io, mes , dia en el cual desea ingresar al Hotel");
+		System.out.println("Ingrese añio, mes , dia en el cual desea ingresar al Hotel");
 		anio = scan.nextInt();
 		mes = scan.nextInt();
 		dia = scan.nextInt();
-		System.out.println("Ingrese aï¿½o, mes, dia en el cual egresa del Hotel");
+		System.out.println("Ingrese año, mes, dia en el cual egresa del Hotel");
 		int anioFin = scan.nextInt();
 		int mesFin = scan.nextInt();
 		int diaFin = scan.nextInt();
