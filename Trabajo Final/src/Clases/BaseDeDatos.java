@@ -7,7 +7,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map.Entry;
 
 public class BaseDeDatos<K,T> {
 	
@@ -40,6 +43,35 @@ public class BaseDeDatos<K,T> {
 			}
 		}
 	}
+	
+	public void escribirArchivoV2(HashMap<K, T> aguardar) {
+		/*
+		 * METOO EN EL CUAL SE VUELVE A GUARDAR TODO EN EL MAPA
+		 */
+		ObjectOutputStream archivo = null;
+		try {
+			archivo = new ObjectOutputStream(new FileOutputStream(ruta));
+			Iterator it = aguardar.entrySet().iterator();
+			while(it.hasNext()) {
+				Entry<K, T> mapa = (Entry<K, T>)it.next();
+				archivo.writeObject(mapa.getValue());
+			}
+			
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			try {
+				archivo.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
 
 	public HashMap<K, T> leerArchivo(){
 		/*
@@ -51,6 +83,42 @@ public class BaseDeDatos<K,T> {
 		try {
 			archivo = new ObjectInputStream(new FileInputStream(ruta));
 			leer = (HashMap<K,T>)archivo.readObject();
+		}catch(EOFException e) {
+			return leer;
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				archivo.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
+		return leer;
+	}
+	
+	public ArrayList<T> leerArhivoV2(){
+		/*
+		 * METODO EN EL CUAL SE LEE LO QUE CONTIENE EN UN ARCHIVO
+		 * 
+		 */
+		ObjectInputStream archivo = null;
+		ArrayList<T> leer = new ArrayList<T>();
+		T guardar;
+		try {
+			archivo = new ObjectInputStream(new FileInputStream(ruta));
+			while((guardar = (T) archivo.readObject()) != null){
+				leer.add(guardar);
+			}
 		}catch(EOFException e) {
 			return leer;
 		} catch (FileNotFoundException e) {

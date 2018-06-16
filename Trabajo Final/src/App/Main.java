@@ -29,9 +29,9 @@ public class Main {
         
         //cargarMapas();
         recuperarDatosArchivo(); // NO COMENTAR ESTA LINEA PORQUE ES LA QUE RECUPERA LOS DATOS DEL ARCHIVO
-        hotel.listarReservasActivas();
        // hotel.listarReservasActivas();
-        
+       // hotel.listarReservasActivas();
+        //hotel.listarHabitaciones();
         //hotel.listarHabitaciones();
         /* int i = 0;
 		for(i=0;i<10;i++) {
@@ -158,6 +158,8 @@ public class Main {
 		}*/
         menuIngreso();
         hotel.listarReservasActivas();
+        System.out.println("-------------");
+        hotel.listarReservasAntiguas();
         //hotel.listarHabitaciones();
         //hotel.recuperarHabitacionesBaseDeDatos();
        
@@ -299,7 +301,13 @@ public class Main {
                     break;
 
                 case 3:
-                	hotel.listarReservasActivas();
+                	System.out.println("Por favor ingrese el codigo de reserva");
+                    String code2 = scan.next();
+                    Reserva reserva22 = hotel.getReserva(code2);
+                    empleado.CheckOut(reserva22);
+                    hotel.setReservaAntiguas(reserva22);
+                    hotel.borrarReservaActiva(reserva22);
+
                     break;
 
                 case 4:
@@ -437,7 +445,7 @@ public class Main {
             hotel.setHabitaciones(habitacion);
         }
         BaseDeDatos<Integer, Habitacion> archivoHabitaciones = new BaseDeDatos<>("habitaciones.dat");
-        archivoHabitaciones.escribirArchivo(hotel.getHabitaciones());
+        archivoHabitaciones.escribirArchivoV2(hotel.getHabitaciones());
     }
 
     public static void cargarMapaReservasActivas() {
@@ -448,7 +456,7 @@ public class Main {
         hotel.setReservaActiva(reserva1);
         
         BaseDeDatos<String, Reserva> archivoReservaActiva = new BaseDeDatos<String, Reserva>("reservasActivas.dat");
-        archivoReservaActiva.escribirArchivo(hotel.getReservaActivas());
+        archivoReservaActiva.escribirArchivoV2(hotel.getReservaActivas());
     }
 
     public static void cargarMapaReservasAntiguas() {
@@ -458,14 +466,14 @@ public class Main {
         hotel.setReservaActiva(reserva);
         hotel.setReservaActiva(reserva1);
         BaseDeDatos<String, Reserva> archivoReservaAntigua = new BaseDeDatos<String, Reserva>("reservasAntiguas.dat");
-        archivoReservaAntigua.escribirArchivo(hotel.getReservasAntiguas());
+        archivoReservaAntigua.escribirArchivoV2(hotel.getReservasAntiguas());
     }
 
     public static void cargarMapaCliente() {
         Cliente cliente = new Cliente("mdp", "Edgar", "111111", "viila gesel");
         hotel.setCliente(cliente);
         BaseDeDatos<String, Cliente> archvioClientes = new BaseDeDatos<String, Cliente>("clientes.dat");
-        archvioClientes.escribirArchivo(hotel.getClientes());
+        archvioClientes.escribirArchivoV2(hotel.getClientes());
     }
 
     public static void cargarMapaEmpleado() {
@@ -474,7 +482,7 @@ public class Main {
         hotel.setEmpleado(empleado);
         hotel.setEmpleado(empleado2);
         BaseDeDatos<String, Empleado> archivoEmpleado = new BaseDeDatos<String, Empleado>("empleados.dat");
-        archivoEmpleado.escribirArchivo(hotel.getEmpleados());
+        archivoEmpleado.escribirArchivoV2(hotel.getEmpleados());
     }
 
     public static void cargarMapas() {
@@ -486,28 +494,37 @@ public class Main {
     }
 
     public static void recuperarDatosArchivo() {
-        hotel.recuerarClienteBaseDeDatos();
+       /* hotel.recuerarClienteBaseDeDatos();
         hotel.recuperarEmpleadoBaseDeDatos();
         hotel.recuperarHabitacionesBaseDeDatos();
         hotel.recuperarReservasActivasBaseDeDatos();
-        hotel.recuperarReservasAntiguasBaseDeDatos();
+        hotel.recuperarReservasAntiguasBaseDeDatos();*/
+    	
+    	
+    	hotel.recuerarClienteBaseDeDatosV2();
+        hotel.recuperarEmpleadoBaseDeDatosV2();
+        hotel.recuperarHabitacionesBaseDeDatosV2();
+        hotel.recuperarReservasActivasBaseDeDatosV2();
+        hotel.recuperarReservasAntiguasBaseDeDatosV2();
+    
     }
 
     
 public static void menuAdministrativo() {
         int opc = 0;
         Scanner scan = new Scanner(System.in);
-        while (opc != 5) {
+        while (opc != 6) {
             System.out.println("1_ Crear nuevo administrador");
             System.out.println("2_ Crear nuevo conserje");
-            System.out.println("2_ Crear nuevo cliente");
+            System.out.println("3_ Crear nuevo cliente");
             System.out.println("4_ Realizar backup de la informacion");
-            System.out.println("5_ Salir");
+            System.out.println("5_ Listar hotel");
+            System.out.println("6_ Salir");
             opc = scan.nextInt();
 
             switch (opc) {
                 case 1:
-                    Empleado empleado;
+                    
                     String nombreCompleto,
                      dni,
                      domicilio,
@@ -525,17 +542,18 @@ public static void menuAdministrativo() {
                     System.out.println("Ingrese la contraseña del nuevo administrador");
                     password = scan.nextLine();
 
-                    empleado = new Administrativo(nombreCompleto, dni, domicilio, usuario, password);
-
+                    Empleado empleado = new Administrativo(nombreCompleto, dni, domicilio, usuario, password);
+                    hotel.setEmpleado(empleado);
+                    
                     break;
 
                 case 2:
-                    Empleado empleado2;
+                    
                     String nombreCompleto2,
-                     dni2,
-                     domicilio2,
-                     usuario2,
-                     password2;
+                    dni2,
+                    domicilio2,
+                    usuario2,
+                    password2;
 
                     System.out.println("Ingrese el nombre completo del nuevo conserje");
                     nombreCompleto2 = scan.nextLine();
@@ -548,17 +566,72 @@ public static void menuAdministrativo() {
                     System.out.println("Ingrese la contraseña del nuevo conserje");
                     password2 = scan.nextLine();
 
-                    empleado2 = new Conserje(nombreCompleto2, dni2, domicilio2, usuario2, password2);
+                    Empleado empleado2 = new Conserje(nombreCompleto2, dni2, domicilio2, usuario2, password2);
+                    hotel.setEmpleado(empleado2);
 
                     break;
 
                 case 3:
-
+                	String origen = new String();
+                	String nombreCompleto3 = new String();
+                	String dni3 = new String();
+                	String domicilio3 = new String();;
+                	
+                	System.out.println("Ingrese el nombre completo del nuevo cliente");
+                	nombreCompleto3 = scan.next();
+                	System.out.println("Ingrese el dni: ");
+                	dni3 = scan.next();
+                	System.out.println("Ingrese el domicilio: ");
+                	domicilio3 = scan.next();
+                	System.out.println("Ingrese el origen");
+                	origen = scan.next();
+                	
+                	Cliente cliente = new Cliente(origen, nombreCompleto3, dni3, domicilio3);
+                	hotel.setCliente(cliente);
+                	
                     break;
 
                 case 4:
 
                     break;
+                    
+                case 5:
+                	System.out.println("Clientes: ");
+                	System.out.println("");
+                	hotel.listarClientes();
+                	System.out.println("--------");
+                	System.out.println("");
+                	
+                	System.out.println("Empleados: ");
+                	System.out.println("");
+                	hotel.listarEmpleados();
+                	System.out.println("--------");
+                	System.out.println("");
+                	
+                	System.out.println("Habitaciones: ");
+                	System.out.println("");
+                	hotel.listarHabitaciones();
+                	System.out.println("--------");
+                	System.out.println("");
+                	
+                	System.out.println("Reservas activas: ");
+                	System.out.println("");
+                	hotel.listarReservasActivas();
+                	System.out.println("--------");
+                	System.out.println("");
+                	
+                	System.out.println("Reservas antiguas: ");
+                	System.out.println("");
+                	hotel.listarReservasAntiguas();
+                	System.out.println("--------");
+                	System.out.println("");
+                	
+                	break;
+                	
+                case 6:
+                	
+                	break;
+                	
                 default:
 
                     System.out.println("Opcion Incorrecta");

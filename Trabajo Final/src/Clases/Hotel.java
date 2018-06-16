@@ -1,5 +1,6 @@
 package Clases;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -198,25 +199,65 @@ public class Hotel {
 		habitaciones = archivoHab.leerArchivo();
 	}
 	
+	public void recuperarHabitacionesBaseDeDatosV2() {
+		BaseDeDatos<Integer, Habitacion> archivoHab = new BaseDeDatos<Integer, Habitacion>("habitaciones.dat");
+		ArrayList<Habitacion> lista = archivoHab.leerArhivoV2();
+		for(Habitacion hab: lista) {
+			habitaciones.put(hab.getNumeroHabitacion(), hab);
+		}
+	}
+	
 	public void recuperarReservasActivasBaseDeDatos() {
 		BaseDeDatos<String,Reserva> archivoReser = new BaseDeDatos<String,Reserva>("reservasActivas.dat");
                 reservasActivas = archivoReser.leerArchivo();
+    }
+	
+	public void recuperarReservasActivasBaseDeDatosV2() {
+		BaseDeDatos<String,Reserva> archivoReser = new BaseDeDatos<String,Reserva>("reservasActivas.dat");
+        ArrayList<Reserva> lista = archivoReser.leerArhivoV2();
+        for(Reserva r: lista) {
+        	reservasActivas.put(r.getCodigoReserva(), r);
         }
+    }
 	
 	public void recuperarReservasAntiguasBaseDeDatos() {
 		BaseDeDatos<String,Reserva> archivoReserAntiguas = new BaseDeDatos<String,Reserva>("reservAsantiguas.dat");
-                reservasAntiguas = archivoReserAntiguas.leerArchivo();
+        reservasAntiguas = archivoReserAntiguas.leerArchivo();
 	}
 	
-        public void recuerarClienteBaseDeDatos(){
-                BaseDeDatos<String, Cliente> archivoCliente = new BaseDeDatos<String, Cliente>("clientes.dat");
-                clientes = archivoCliente.leerArchivo();
-                }
-        
-        public void recuperarEmpleadoBaseDeDatos(){
-            BaseDeDatos<String, Empleado> archEmpleado = new BaseDeDatos<String, Empleado>("empleados.dat");
-            empleados = archEmpleado.leerArchivo();
+	public void recuperarReservasAntiguasBaseDeDatosV2() {
+		BaseDeDatos<String,Reserva> archivoReserAntiguas = new BaseDeDatos<String,Reserva>("reservAsantiguas.dat");
+        ArrayList<Reserva> lista = archivoReserAntiguas.leerArhivoV2();
+        for(Reserva r: lista) {
+        	reservasAntiguas.put(r.getCodigoReserva(), r);
         }
+	}
+	
+    public void recuerarClienteBaseDeDatos(){
+        BaseDeDatos<String, Cliente> archivoCliente = new BaseDeDatos<String, Cliente>("clientes.dat");
+        clientes = archivoCliente.leerArchivo();
+    }
+    
+    public void recuerarClienteBaseDeDatosV2(){
+        BaseDeDatos<String, Cliente> archivoCliente = new BaseDeDatos<String, Cliente>("clientes.dat");
+        ArrayList<Cliente> lista = archivoCliente.leerArhivoV2();
+        for(Cliente c: lista) {
+        	clientes.put(c.getDni(), c);
+        }
+    }
+        
+    public void recuperarEmpleadoBaseDeDatos(){
+       BaseDeDatos<String, Empleado> archEmpleado = new BaseDeDatos<String, Empleado>("empleados.dat");
+       empleados = archEmpleado.leerArchivo();
+    }
+    
+    public void recuperarEmpleadoBaseDeDatosV2(){
+        BaseDeDatos<String, Empleado> archEmpleado = new BaseDeDatos<String, Empleado>("empleados.dat");
+        ArrayList<Empleado> lista = archEmpleado.leerArhivoV2();
+        for(Empleado e: lista) {
+        	empleados.put(e.getDni(), e);
+        }
+     }
         
 	public void fijarCodigoReserva(Reserva reserva) {
 		String codigo = reserva.fijarCodigoReserva();
@@ -253,6 +294,16 @@ public class Hotel {
         
         public void listarReservasActivas(){
             Iterator<Entry<String,Reserva>> it = reservasActivas.entrySet().iterator();
+            while(it.hasNext()){
+                Entry<String,Reserva> mapa = (Entry<String,Reserva>)it.next();
+                Reserva reserva = mapa.getValue();
+                System.out.println(reserva.toString());
+                System.out.println("");     
+            }
+        }
+        
+        public void listarReservasAntiguas(){
+            Iterator<Entry<String,Reserva>> it = reservasAntiguas.entrySet().iterator();
             while(it.hasNext()){
                 Entry<String,Reserva> mapa = (Entry<String,Reserva>)it.next();
                 Reserva reserva = mapa.getValue();
@@ -303,26 +354,30 @@ public class Hotel {
          
          public void guardarMapaHabitaciones() {
         	 BaseDeDatos<Integer, Habitacion> archHabitaciones = new BaseDeDatos<Integer, Habitacion>("habitaciones.dat");
-        	 archHabitaciones.escribirArchivo(habitaciones);
+        	 archHabitaciones.escribirArchivoV2(habitaciones);
          }
          
          public void guardarMapaReservasActivas() {
         	 BaseDeDatos<String, Reserva> archRese = new BaseDeDatos<String,Reserva>("reservasActivas.dat");
-        	 archRese.escribirArchivo(reservasActivas);
+        	 archRese.escribirArchivoV2(reservasActivas);
          }
          
          public void guardarMapaReservasAntiguas() {
         	 BaseDeDatos<String, Reserva> archRese = new BaseDeDatos<String,Reserva>("reservasAntiguas.dat");
-        	 archRese.escribirArchivo(reservasAntiguas);
+        	 archRese.escribirArchivoV2(reservasAntiguas);
          }
          
          public void guardarMapaCliente() {
         	 BaseDeDatos<String, Cliente> archCLientes = new BaseDeDatos<String,Cliente>("clientes.dat");
-        	 archCLientes.escribirArchivo(clientes);
+        	 archCLientes.escribirArchivoV2(clientes);
          }
          
          public void guardarMapaEmpleados() {
         	 BaseDeDatos<String, Empleado> archEmpleado = new BaseDeDatos<String, Empleado>("empleados.dat");
-        	 archEmpleado.escribirArchivo(empleados);
+        	 archEmpleado.escribirArchivoV2(empleados);
+         }
+         
+         public void borrarReservaActiva(Reserva r) {
+        	 reservasActivas.remove(r.getCodigoReserva());
          }
 }
