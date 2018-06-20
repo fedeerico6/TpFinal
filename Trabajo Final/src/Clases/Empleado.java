@@ -5,6 +5,9 @@ import Interfaces.Administracion;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import Excepciones.FaltaCheckIn;
+import Excepciones.fechaIncorrecta;
+
 public class Empleado extends Persona implements Serializable, Administracion {
 
     private String usuario;
@@ -62,24 +65,35 @@ public class Empleado extends Persona implements Serializable, Administracion {
 
     }
 
-    public void CheckOut(Reserva reserva) {
+    public void CheckOut(Reserva reserva) throws fechaIncorrecta {
 
         ArrayList<Integer> hab = reserva.GetHabitaciones();
-        int tamaño = hab.size();
+        double total = 0;
+        double precio = 0;
         int h = 0;
-       /* while (h < tamaño) {
-
-            Habitacion room = hotel.GetHabitacion(hab.get(h));
-            room.setOcupado(false);
-            h++;
-        }*/
         for(Integer numero: hab){
-        	Habitacion room = hotel.GetHabitacion(hab.get(h));
-        	room.setOcupado(false);
-        	h++;
+            	
+            Habitacion room = hotel.GetHabitacion(hab.get(h));
+            verificarPrevioCheckIn(room);
+           	int i = reserva.longitudReserva();
+           	precio = i * room.getPrecio();
+           	total = total + precio;
+           	room.setOcupado(false);
+           	h++;
         }
+        System.out.println("Usted debera abonar: "+total);
         System.out.println("CheckOut Exitoso");
-
+        
+        
     }
-
+    
+    public String toString() {
+    	return super.toString()+" usuario: "+usuario+" pass: "+pass;
+    }
+    
+    public void verificarPrevioCheckIn(Habitacion room) throws FaltaCheckIn {
+    	if(!room.getOcupado()) {
+    		throw new FaltaCheckIn("No se realizo el check in");
+    	}
+    }
 }

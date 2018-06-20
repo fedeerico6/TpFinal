@@ -112,19 +112,24 @@ public class Hotel {
             return empleados;
         }
 	
-        public Habitacion comprobarDisponibilidadDeReserva(Reserva comprobar, TipoHabitacion tipo) throws HabitacionesNoDisponibles {
+    public Habitacion comprobarDisponibilidadDeReserva(Reserva comprobar, TipoHabitacion tipo) throws HabitacionesNoDisponibles {
 		/*
 		 * ESTE METODO RECIBE COMO PARAMETRO UNA RESERVA LA CUAL SE QUIERE COMPROBAR SI ESTA DISPONIBLE
 		 * TAMBIEN RECIBE UN TIPO DE HABITACION POR EJEMPLO SI LA RESERVA ES PARA UNA HABITACION DOBLE RECIBE COMO PARAMETRO DOBLE
 		 * PARA PODER HACER UN FILTRADO PREVIO Y NO TENES QUE COMPROBAR TODAS LAS RESERVAS
 		 */
+        	//System.out.println("ENtre a comprobar la disponibilidad de la fecha");
 		boolean estado = false;
 		HashSet<Habitacion> habitaciones = mismoTipoHabitacion(tipo);
 		for(Habitacion habitacion: habitaciones) {
+			//System.out.println("Entro al for");
 			if(!estado) {
 				estado  = habitacion.habitacionDisponible(comprobar);
-				if(estado) {
+				boolean aux = habitacion.comprobarQueLaHabitacionNoEsteEnMantenimiento();
+				if(estado && aux) {
 					return habitacion;
+				}else {
+					estado = false;
 				}
 			}
 		}
@@ -176,21 +181,16 @@ public class Hotel {
 		}
 	}
 
-	public Habitacion reservar(Reserva reserva, TipoHabitacion tipo) {
+	public Habitacion reservar(Reserva reserva, TipoHabitacion tipo) throws HabitacionesNoDisponibles {
 		Habitacion habitacion = null;
-		try {
-
+		
+			
 			habitacion = comprobarDisponibilidadDeReserva(reserva, tipo);
 			//habitacion.setReserva(reserva);
+			//System.out.println(habitacion.getNumeroHabitacion());
 			
-			
-		} catch (HabitacionesNoDisponibles e) {
-			System.out.println(e.getMenssage());
-			System.out.println("");
-			//Main.menuConserje();
-                       
-		} 
-               // System.out.println("me segui ejecutando");
+		 
+		
 		return habitacion;
 	}
 	
@@ -297,7 +297,7 @@ public class Hotel {
             while(it.hasNext()){
                 Entry<String,Reserva> mapa = (Entry<String,Reserva>)it.next();
                 Reserva reserva = mapa.getValue();
-                System.out.println(reserva.toString());
+                System.out.println("Reserva activa  " + reserva.toString());
                 System.out.println("");     
             }
         }

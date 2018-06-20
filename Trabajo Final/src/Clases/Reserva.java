@@ -77,7 +77,7 @@ public class Reserva implements Serializable {
     }
 
     public String toString() {
-        return "Codigo: "+codigoReserva+" Habitaciones: "+habitaciones.toString();
+        return "Codigo: "+codigoReserva+" Habitaciones: "+habitaciones.toString()+ " Inicio: "+fechaInicio+ " Fin: "+fechaFin;
     }
 
     public void comprobarFormatoFecha(int anio, int mes, int dia) throws fechaIncorrecta {
@@ -146,7 +146,7 @@ public class Reserva implements Serializable {
             testigo = testigo + letras.charAt(caracter);
         }
         //System.out.println(testigo);
-
+        
         return testigo;
 
     }
@@ -172,5 +172,17 @@ public class Reserva implements Serializable {
     	for(Integer numero: habitaciones) {
     		
     	}
+    }
+    
+    public int longitudReserva() {
+    	int i = 0;
+    	LocalDate aux = fechaInicio;
+    	System.out.println("ABRIME LA CONSOLA LA CONCHA BIEN DE TU MADRE");
+    	while(aux.isBefore(fechaFin)) {
+    		aux = aux.plusDays(1);
+    		i++;
+    	}
+    	System.out.println("Longitud: "+ i);
+    	return i;
     }
 }

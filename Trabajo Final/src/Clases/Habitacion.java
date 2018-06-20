@@ -35,7 +35,7 @@ public class Habitacion implements Serializable {
 		this.numero = numero;
 		this.precio = precio;
 		ocupado = false;
-		disponible = Disponibilidad.DISPONIBLE;
+		disponible = Disponibilidad.DESINFECCION;
 		reservaActual = null;
 		reservas = new HashSet<Reserva>();
 	}
@@ -141,6 +141,7 @@ public class Habitacion implements Serializable {
 		 * EN LA LISTA DE RESERVAS DE LA HABITACION SI ESTA RESERVA 
 		 * ENVIADA POR PARAMETRO SE ENCUENTRA DISPONIBLE
 		 */
+		//System.out.println("estoy viendo si la habitacion esta disponible");
 		boolean estado = true; 
 		for(Reserva reserva: reservas) {
 			if(estado) {
@@ -154,6 +155,21 @@ public class Habitacion implements Serializable {
 	}
 
 	public String toString() {
-		return "Numero: " + numero + " Tipo: " + tipo+ " Estado: "+ocupado;
+		return "Numero: " + numero + " Tipo: " + tipo+ " Estado: "+ocupado+ " Precio: "+precio+ " Disponible: "+disponible;
+	}
+	
+	public int longitudReserva() {
+		return reservaActual.longitudReserva();
+	}
+	
+	public boolean comprobarQueLaHabitacionNoEsteEnMantenimiento() {
+		boolean estado;
+		if(disponible.equals(Disponibilidad.DISPONIBLE)) {
+			estado = true;
+			return estado;
+		}else {
+			estado = false;
+			return estado;
+		}
 	}
 }

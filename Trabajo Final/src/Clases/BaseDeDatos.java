@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.nio.channels.spi.AbstractInterruptibleChannel;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -87,6 +88,18 @@ public class BaseDeDatos<K,T> {
 			return leer;
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
+			ObjectOutputStream abrir = null;
+			try {
+				abrir = new ObjectOutputStream(new FileOutputStream(ruta));
+				abrir.close();
+			} catch (FileNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
 			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -123,7 +136,20 @@ public class BaseDeDatos<K,T> {
 			return leer;
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			ObjectOutputStream abrir = null;
+			try {
+				abrir = new ObjectOutputStream(new FileOutputStream(ruta));
+				abrir.close();
+			} catch (FileNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
+			
+			//e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
