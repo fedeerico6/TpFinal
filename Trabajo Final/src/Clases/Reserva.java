@@ -6,9 +6,16 @@ import java.util.ArrayList;
 import Excepciones.CodigoDeReservaEnUso;
 import Excepciones.fechaIncorrecta;
 import java.io.Serializable;
-
+/**
+ * CLASE EN LA CUAL SE MANEJA TODOS LOS ATRIBUTOS Y METODO QUE 
+ * TENGAN QUE VER CON UNA RESERVA
+ * @author Federico
+ *
+ */
 public class Reserva implements Serializable {
-
+	/**
+	 * ATRIBUTOS
+	 */
     private ArrayList<Integer> habitaciones;
     private String dni;
     private String nombreCompleto;
@@ -19,6 +26,9 @@ public class Reserva implements Serializable {
     private boolean estado;
     private String codigoReserva;
 
+    /**
+     * METODOS
+     */
     public Reserva(String dni, LocalDate fechaInicio, LocalDate fechaFin) {
         /*
 		 * CONSTRUCTOR
@@ -81,6 +91,9 @@ public class Reserva implements Serializable {
     }
 
     public void comprobarFormatoFecha(int anio, int mes, int dia) throws fechaIncorrecta {
+    	/**
+    	 * COMPRUEBA QUE EL FORMATO DE LA FECHA INGRESADA SEA CORRECTO
+    	 */
         if (mes <= 12) {
             if (mes == 2) {
                 if (dia > 28) {
@@ -100,6 +113,9 @@ public class Reserva implements Serializable {
     }
 
     public void comprobarFechaActual(int anio, int mes, int dia) throws fechaIncorrecta {
+    	/**
+    	 * COMPRUEBA QUE LA FECHA INGRESADA POR TECLADO SEA ANTERIOR A LA FECHA DE HOY
+    	 */
         LocalDate date = LocalDate.of(anio, mes, dia);
         if (date.isBefore(LocalDate.now())) {
             throw new fechaIncorrecta("La fecha que ingreso es anterior a la fecha actual");
@@ -138,6 +154,10 @@ public class Reserva implements Serializable {
     }
 
     public String fijarCodigoReserva() {
+    	/**
+    	 * METODO EN EL CUAL SE CREA UN NUEVO CODIGO DE RESERVA
+    	 * PARA UNA NUEVA RESERVA
+    	 */
         String letras = "ABCDefgh1234";
         String testigo = "";
         int longitudCadena = (int) Math.floor(Math.random() * 12);
@@ -175,14 +195,15 @@ public class Reserva implements Serializable {
     }
     
     public int longitudReserva() {
+    	/**
+    	 * METODO EN EL CUAL DEVUELVE DE CUANTOS DIAS ES UNA RESERVA
+    	 */
     	int i = 0;
     	LocalDate aux = fechaInicio;
-    	System.out.println("ABRIME LA CONSOLA LA CONCHA BIEN DE TU MADRE");
     	while(aux.isBefore(fechaFin)) {
     		aux = aux.plusDays(1);
     		i++;
     	}
-    	System.out.println("Longitud: "+ i);
     	return i;
     }
 }

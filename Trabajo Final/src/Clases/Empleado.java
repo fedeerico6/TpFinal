@@ -7,12 +7,30 @@ import java.util.ArrayList;
 
 import Excepciones.FaltaCheckIn;
 import Excepciones.fechaIncorrecta;
-
+/**
+ * SE UTILIZA PARA CONTENTER LOS DISTINTOS TIPOS DE EMPLEADOS QUE SE ENCUENTRAN EN EL HOTEL Y PODER DARLES UN COMPORTAMIENTO
+ * A ESTOS EMPLEADOS
+ * @author Federico
+ *
+ */
 public class Empleado extends Persona implements Serializable, Administracion {
-
+	/**
+	 * ATRIBUTOS
+	 */
     private String usuario;
     private String pass;
 
+    /**
+     * METODOS
+     */
+    /**
+     * CONSTRUCTOR
+     * @param nombreCompleto
+     * @param dni
+     * @param domicilio
+     * @param usuario
+     * @param pass
+     */
     public Empleado(String nombreCompleto, String dni, String domicilio, String usuario, String pass) {
         /*
 		 * CONSTRUCTOR DEL EMPLEADO
@@ -41,19 +59,12 @@ public class Empleado extends Persona implements Serializable, Administracion {
 
     @Override
     public void CheckIn(Reserva reserva) {
-
+    	/**
+    	 * METODO EN EL CUAL SE LE REALIZA EL CHECK IN A UNA HABITACION MEDIANTA EL CODIGO DE UNA RESERVA
+    	 */
         ArrayList<Integer> hab = reserva.GetHabitaciones();
         int tamaño = hab.size();
         int h = 0;
-        
-        /*while (h < tamaño) {
-
-            Habitacion room = hotel.GetHabitacion(hab.get(h));
-            System.out.println("nro" + h);
-            room.setOcupado(true);
-            hotel.setHabitaciones(room);
-            h++;
-        }*/
         
         for(Integer numero: hab){
         	Habitacion room = hotel.GetHabitacion(hab.get(h));
@@ -66,7 +77,9 @@ public class Empleado extends Persona implements Serializable, Administracion {
     }
 
     public void CheckOut(Reserva reserva) throws fechaIncorrecta {
-
+    	/**
+    	 * METODO EN EL CUAL SE LE REALIZA EL CHECK OUT A UNA HABITACION MEDIANTA EL CODIGO DE RESERVA
+    	 */
         ArrayList<Integer> hab = reserva.GetHabitaciones();
         double total = 0;
         double precio = 0;
@@ -92,6 +105,10 @@ public class Empleado extends Persona implements Serializable, Administracion {
     }
     
     public void verificarPrevioCheckIn(Habitacion room) throws FaltaCheckIn {
+    	/**
+    	 * VERIFICA QUE NO SE LE PUEDA REALIZAR EL CHECK OUT A UNA HABITACION QUE PREVIAMENTE NO SE LE HIZO EL CHECK IN
+    	 * 
+    	 */
     	if(!room.getOcupado()) {
     		throw new FaltaCheckIn("No se realizo el check in");
     	}

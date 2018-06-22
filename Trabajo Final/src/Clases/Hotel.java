@@ -1,3 +1,7 @@
+/**
+	 * Clase hotel, es la clase encarga de manejar todo lo que suceda ya sea desde reservas hasta nuevos empleados.
+	 * Cualquier cosa que se realice esta controlada por esta clase 
+	 */
 package Clases;
 
 import java.util.ArrayList;
@@ -10,11 +14,15 @@ import App.Main;
 import Clases.Habitacion.Disponibilidad;
 import Clases.Habitacion.TipoHabitacion;
 import Excepciones.CodigoDeReservaEnUso;
+import Excepciones.CodigoDeReservaInexsistente;
 import Excepciones.HabitacionesNoDisponibles;
 import Excepciones.paswordIncorrecto;
 import Excepciones.usuarioIncorrecto;
 
 public class Hotel {
+	/**
+	 * ATRIBUTOS
+	 */
 	private String nombre;
 	private String localidad;
 	private String domicilio;
@@ -24,9 +32,13 @@ public class Hotel {
 	private HashMap<String,Cliente> clientes;
 	private HashMap<String,Empleado> empleados;
 	
+	
+	/**
+	 * METODOS 
+	 */
 	public Hotel(String nombre, String localidad, String domicilio) {
 		
-		/*
+		/**
 		 * CONSTRUCTOR DEL HOTEL
 		 */
 		
@@ -51,7 +63,7 @@ public class Hotel {
 	
 	public HashSet<Habitacion> mismoTipoHabitacion(TipoHabitacion tipo){
 		
-		/*
+		/**
 		 * Este metodo recibe como parametro un tipo de habitacion (SIMPLE DOBLE TRIPLE CUADRUPLE ETC)
 		 * y recorre el mapa de habitaciones y encuentra las que son del mismo tipo y las devuelve en un HashSet
 		 * 
@@ -75,50 +87,49 @@ public class Hotel {
 		 */
 		habitaciones.put(habitacion.getNumeroHabitacion(), habitacion);
 	}
-	
-        public void setReservaActiva(Reserva reserva) {
+
+	public void setReservaActiva(Reserva reserva) {
 		reservasActivas.put(reserva.getCodigoReserva(), reserva);
 	}
-	
+
 	public void setEmpleado(Empleado empleado) {
 		empleados.put(empleado.getUsuario(), empleado);
 	}
 	
-        public void setCliente(Cliente cliente){
-            clientes.put(cliente.getDni(), cliente);
-        }
+    public void setCliente(Cliente cliente){
+        clientes.put(cliente.getDni(), cliente);
+    }
         
-        public void setReservaAntiguas(Reserva reserva) {
-		reservasAntiguas.put(reserva.getCodigoReserva(), reserva);
+    public void setReservaAntiguas(Reserva reserva) {
+    	reservasAntiguas.put(reserva.getCodigoReserva(), reserva);
 	}
         
-        public HashMap<Integer, Habitacion> getHabitaciones(){
+    public HashMap<Integer, Habitacion> getHabitaciones(){
 		return habitaciones;
 	}
 	
-        public HashMap<String, Reserva> getReservaActivas(){
-            return reservasActivas;
-        }
+    public HashMap<String, Reserva> getReservaActivas(){
+        return reservasActivas;
+    }
+    	
+    public HashMap<String, Reserva> getReservasAntiguas(){
+        return reservasAntiguas;
+    }
         
-        public HashMap<String, Reserva> getReservasAntiguas(){
-            return reservasAntiguas;
-        }
+    public HashMap<String, Cliente> getClientes(){
+        return clientes;
+    }
         
-        public HashMap<String, Cliente> getClientes(){
-            return clientes;
-        }
-        
-        public HashMap<String, Empleado> getEmpleados(){
-            return empleados;
-        }
+    public HashMap<String, Empleado> getEmpleados(){
+         return empleados;
+    }
 	
     public Habitacion comprobarDisponibilidadDeReserva(Reserva comprobar, TipoHabitacion tipo) throws HabitacionesNoDisponibles {
-		/*
+		/**
 		 * ESTE METODO RECIBE COMO PARAMETRO UNA RESERVA LA CUAL SE QUIERE COMPROBAR SI ESTA DISPONIBLE
 		 * TAMBIEN RECIBE UN TIPO DE HABITACION POR EJEMPLO SI LA RESERVA ES PARA UNA HABITACION DOBLE RECIBE COMO PARAMETRO DOBLE
 		 * PARA PODER HACER UN FILTRADO PREVIO Y NO TENES QUE COMPROBAR TODAS LAS RESERVAS
 		 */
-        	//System.out.println("ENtre a comprobar la disponibilidad de la fecha");
 		boolean estado = false;
 		HashSet<Habitacion> habitaciones = mismoTipoHabitacion(tipo);
 		for(Habitacion habitacion: habitaciones) {
@@ -140,7 +151,7 @@ public class Hotel {
 	}
 	
 	public Empleado comprobarUsuario(String usuario) throws usuarioIncorrecto {
-		/*
+		/**
 		 * COMPRUEBA QUE EL USUARIO INGRESADO POR EL USUARIO
 		 * SEA EL CORRECTO, EN CASO DE NO SER EL CORRECTO VUELVE A PEDIR
 		 * QUE SE INGRESE NUEVAMENTE
@@ -182,15 +193,15 @@ public class Hotel {
 	}
 
 	public Habitacion reservar(Reserva reserva, TipoHabitacion tipo) throws HabitacionesNoDisponibles {
+		/**
+		 * ES EL METODO EN EL CUAL SE INSTANCIA UNA HABITACION PARA SABER SI LA RESERVA ESTA DISPONIBLE
+		 * SI DEVUELVE LA HABITACION EN NULO ES PORQUE NO HAY HABITACIONES PARA ESA RESERVA
+		 */
+		
 		Habitacion habitacion = null;
-		
 			
-			habitacion = comprobarDisponibilidadDeReserva(reserva, tipo);
-			//habitacion.setReserva(reserva);
-			//System.out.println(habitacion.getNumeroHabitacion());
+		habitacion = comprobarDisponibilidadDeReserva(reserva, tipo);
 			
-		 
-		
 		return habitacion;
 	}
 	
@@ -200,6 +211,9 @@ public class Hotel {
 	}
 	
 	public void recuperarHabitacionesBaseDeDatosV2() {
+		/**
+		 * UTILIZAR TODO LO V2 CON LO QUE TENGA QUE VER A LA BASE DE DATOS
+		 */
 		BaseDeDatos<Integer, Habitacion> archivoHab = new BaseDeDatos<Integer, Habitacion>("habitaciones.dat");
 		ArrayList<Habitacion> lista = archivoHab.leerArhivoV2();
 		for(Habitacion hab: lista) {
@@ -260,6 +274,10 @@ public class Hotel {
      }
         
 	public void fijarCodigoReserva(Reserva reserva) {
+		/**
+		 * ES EL METODO EN EL CUAL SE FIJA UN NUEVO CODIGO DE RESERVA
+		 * PARA LA RESERVA QUE SE ENVIA POR PARAMETRO
+		 */
 		String codigo = reserva.fijarCodigoReserva();
 		try {
 			comprobarCodigoReserva(codigo);
@@ -270,10 +288,14 @@ public class Hotel {
 		} catch (CodigoDeReservaEnUso e){
 			fijarCodigoReserva(reserva);
 		}
-		
 	}
 	
 	public void comprobarCodigoReserva(String codigo) throws CodigoDeReservaEnUso {
+		/**
+		 * ES EL CODIGO QUE COMPRUEBA QUE EL CODIGO DE LA RESERVA YA NO ESTE EN USO
+		 * ASI SE LE PUEDE ASIGNAR UN NUEVO CODIGO A LA NUEVA RESERVA
+		 */
+		
 		if(reservasActivas.containsKey(codigo)) {
 			throw new CodigoDeReservaEnUso("Codigo de reserva en uso");
 		}
@@ -282,102 +304,136 @@ public class Hotel {
 		}
 	}
         
-        public void listarHabitaciones(){
-            Iterator<Entry<Integer,Habitacion>> it = habitaciones.entrySet().iterator();
-            while(it.hasNext()){
-                Entry<Integer, Habitacion> mapa = (Entry<Integer, Habitacion>)it.next();
-                Habitacion habitacion = mapa.getValue();
-                System.out.println(habitacion.toString());
-                System.out.println("");     
-            }
+    public void listarHabitaciones(){
+    	/**
+    	 * TE MUESTRA POR PANTALLAS EL LISTADO DE TODAS LAS HABITACIONES 
+    	 */
+       Iterator<Entry<Integer,Habitacion>> it = habitaciones.entrySet().iterator();
+       while(it.hasNext()){
+          Entry<Integer, Habitacion> mapa = (Entry<Integer, Habitacion>)it.next();
+          Habitacion habitacion = mapa.getValue();
+          System.out.println(habitacion.toString());
+          System.out.println("");     
+       }
+    }
+    
+    public void listarReservasActivas(){
+    	/**
+    	 * TE MUESTRA POR PANTALLA EL LISTADO DE TODAS LAS RESERVAS ACTIVAS
+    	 */
+       Iterator<Entry<String,Reserva>> it = reservasActivas.entrySet().iterator();
+       while(it.hasNext()){
+           Entry<String,Reserva> mapa = (Entry<String,Reserva>)it.next();
+           Reserva reserva = mapa.getValue();
+           System.out.println("Reserva activa  " + reserva.toString());
+           System.out.println("");     
         }
+    }
         
-        public void listarReservasActivas(){
-            Iterator<Entry<String,Reserva>> it = reservasActivas.entrySet().iterator();
-            while(it.hasNext()){
-                Entry<String,Reserva> mapa = (Entry<String,Reserva>)it.next();
-                Reserva reserva = mapa.getValue();
-                System.out.println("Reserva activa  " + reserva.toString());
-                System.out.println("");     
-            }
-        }
-        
-        public void listarReservasAntiguas(){
-            Iterator<Entry<String,Reserva>> it = reservasAntiguas.entrySet().iterator();
-            while(it.hasNext()){
-                Entry<String,Reserva> mapa = (Entry<String,Reserva>)it.next();
-                Reserva reserva = mapa.getValue();
-                System.out.println(reserva.toString());
-                System.out.println("");     
-            }
-        }
+    public void listarReservasAntiguas(){
+    	/**
+    	 * TE MUESTRA POR PANTALLA EL LISTADO DE TODAS LAS RESERVAS ANTIGUAS
+    	 */
+    	Iterator<Entry<String,Reserva>> it = reservasAntiguas.entrySet().iterator();
+    	while(it.hasNext()){
+    		Entry<String,Reserva> mapa = (Entry<String,Reserva>)it.next();
+    		Reserva reserva = mapa.getValue();
+    		System.out.println(reserva.toString());
+    		System.out.println("");     
+    	}
+    }
 
-        public void listarClientes(){
-           Iterator<Entry<String,Cliente>> it = clientes.entrySet().iterator();
-            while(it.hasNext()){
-                Entry<String,Cliente> mapa = (Entry<String,Cliente>)it.next();
-                Cliente cliente = mapa.getValue();
-                System.out.println(cliente.toString());
-                System.out.println("");     
-            } 
-        }
-        
-        public void listarEmpleados(){
-            Iterator<Entry<String,Empleado>> it = empleados.entrySet().iterator();
-            while(it.hasNext()){
-                Entry<String,Empleado> mapa = (Entry<String,Empleado>)it.next();
-                Empleado empleado = mapa.getValue();
-                System.out.println(empleado.toString());
-                System.out.println("");     
-            }
-        }
-               
-          public Habitacion GetHabitacion(Integer k){
-            
-            Habitacion room = habitaciones.get(k);
-            return room;
-            
-            
-        }   
-        
-         public Reserva getReserva(String code){
-             return reservasActivas.get(code);
-         }
+    public void listarClientes(){
+    	/**
+    	 * TE MUESTRA POR PANTALLA TODOS LOS CLIENTES GUARDADOS EN EL SISTEMA
+    	 */
+    	Iterator<Entry<String,Cliente>> it = clientes.entrySet().iterator();
+    	while(it.hasNext()){
+    		Entry<String,Cliente> mapa = (Entry<String,Cliente>)it.next();
+    		Cliente cliente = mapa.getValue();
+    		System.out.println(cliente.toString());
+    		System.out.println("");     
+    	} 
+    }
 
-         public void gaurdarMapasEnArchivos() {
-        	 guardarMapaCliente();
-        	 guardarMapaEmpleados();
-        	 guardarMapaHabitaciones();
-        	 guardarMapaReservasActivas();
-        	 guardarMapaReservasAntiguas();
-         }
-         
-         public void guardarMapaHabitaciones() {
-        	 BaseDeDatos<Integer, Habitacion> archHabitaciones = new BaseDeDatos<Integer, Habitacion>("habitaciones.dat");
-        	 archHabitaciones.escribirArchivoV2(habitaciones);
-         }
-         
-         public void guardarMapaReservasActivas() {
-        	 BaseDeDatos<String, Reserva> archRese = new BaseDeDatos<String,Reserva>("reservasActivas.dat");
-        	 archRese.escribirArchivoV2(reservasActivas);
-         }
-         
-         public void guardarMapaReservasAntiguas() {
-        	 BaseDeDatos<String, Reserva> archRese = new BaseDeDatos<String,Reserva>("reservasAntiguas.dat");
-        	 archRese.escribirArchivoV2(reservasAntiguas);
-         }
-         
-         public void guardarMapaCliente() {
-        	 BaseDeDatos<String, Cliente> archCLientes = new BaseDeDatos<String,Cliente>("clientes.dat");
-        	 archCLientes.escribirArchivoV2(clientes);
-         }
-         
-         public void guardarMapaEmpleados() {
-        	 BaseDeDatos<String, Empleado> archEmpleado = new BaseDeDatos<String, Empleado>("empleados.dat");
-        	 archEmpleado.escribirArchivoV2(empleados);
-         }
-         
-         public void borrarReservaActiva(Reserva r) {
-        	 reservasActivas.remove(r.getCodigoReserva());
-         }
+    public void listarEmpleados(){
+    	/**
+    	 * TE MUESTRA POR PANTALLA LA LISTA DE EMPLEADOS
+    	 */
+    	Iterator<Entry<String,Empleado>> it = empleados.entrySet().iterator();
+    	while(it.hasNext()){
+    		Entry<String,Empleado> mapa = (Entry<String,Empleado>)it.next();
+    		Empleado empleado = mapa.getValue();
+    		System.out.println(empleado.toString());
+    		System.out.println("");     
+    	}
+    }
+
+    public Habitacion GetHabitacion(Integer k){
+    	/**
+    	 * TE DUVUELVE UNA HABITACION SEGUN EL NUMERO QUE LE MANDES POR PARAMETRO
+    	 */
+
+    	Habitacion room = habitaciones.get(k);
+    	return room;
+    }   
+
+    public Reserva getReserva(String code){
+    	/**
+    	 * TE DEVUELE LA RESERVA QUE LE CORRESPONDA AL CODIGO QUE LE MANDASTE POR PARAMETRO
+    	 */
+    	return reservasActivas.get(code);
+    }
+
+    public void gaurdarMapasEnArchivos() {
+    	/**
+    	 * GUARDA TODO LO QUE CONTIENEN LOS MAPAS EN LOS ARCVÇHIVOS
+    	 */
+    	guardarMapaCliente();
+    	guardarMapaEmpleados();
+    	guardarMapaHabitaciones();
+    	guardarMapaReservasActivas();
+    	guardarMapaReservasAntiguas();
+    }
+
+    public void guardarMapaHabitaciones() {
+    	BaseDeDatos<Integer, Habitacion> archHabitaciones = new BaseDeDatos<Integer, Habitacion>("habitaciones.dat");
+    	archHabitaciones.escribirArchivoV2(habitaciones);
+    }
+
+    public void guardarMapaReservasActivas() {
+    	BaseDeDatos<String, Reserva> archRese = new BaseDeDatos<String,Reserva>("reservasActivas.dat");
+    	archRese.escribirArchivoV2(reservasActivas);
+    }
+
+    public void guardarMapaReservasAntiguas() {
+    	BaseDeDatos<String, Reserva> archRese = new BaseDeDatos<String,Reserva>("reservasAntiguas.dat");
+    	archRese.escribirArchivoV2(reservasAntiguas);
+    }
+
+    public void guardarMapaCliente() {
+    	BaseDeDatos<String, Cliente> archCLientes = new BaseDeDatos<String,Cliente>("clientes.dat");
+    	archCLientes.escribirArchivoV2(clientes);
+    }
+
+    public void guardarMapaEmpleados() {
+    	BaseDeDatos<String, Empleado> archEmpleado = new BaseDeDatos<String, Empleado>("empleados.dat");
+    	archEmpleado.escribirArchivoV2(empleados);
+    }
+
+    public void borrarReservaActiva(Reserva r) {
+    	reservasActivas.remove(r.getCodigoReserva());
+    }
+    
+    public void eliminarReserva(String codigo) throws CodigoDeReservaInexsistente {
+    	if(reservasActivas.remove(codigo)==null) {
+    		throw new CodigoDeReservaInexsistente("El codigo de reserva que ingreso no exsiste");
+    	}
+    }
+    
+    public void comprobarValidezCodigoDeReservaActiva(String codigo) {
+    	if(reservasActivas.get(codigo)==null) {
+    		throw new CodigoDeReservaInexsistente("El codigo ingresado no exsiste");
+    	}
+    }
 }

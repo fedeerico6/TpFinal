@@ -1,7 +1,11 @@
 package Clases;
 
 import java.io.Serializable;
-
+/**
+ * 
+ * @author Federico
+ *
+ */
 public abstract class Persona implements Serializable{
 	private String nombreCompleto;
 	private String dni;

@@ -12,15 +12,30 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map.Entry;
-
+/**
+ * CLASE EN LA CUAL TE PERMITE MANIPULAR CON EL ARCHIVO.
+ * ES UNA CLASE GENERA QUE DEBERIA RECIBIR COMO K LA CLAVE DE UN MAPA
+ * Y COMO T EL VALOR DE UN MAPA 
+ * SOLO FUNCIONA PARA LEER O GUARDAR COSAS QUE ESTEN RELACIONADAS CON MAPAS
+ * UTILIZAR SOLO LOS METODOS V2
+ * @author Federico
+ *
+ * @param <K>
+ * @param <T>
+ */
 public class BaseDeDatos<K,T> {
-	
+	/**
+	 * ATRIBUTOS
+	 */
 	private String ruta;
-	
+	/**
+	 * METODOS
+	 * @param ruta
+	 */
 	public BaseDeDatos(String ruta){
 		this.ruta = ruta;
 	}
-	
+
 	public void escribirArchivo(HashMap<K, T> aGuardar) {
 		/*
 		 * METODO EN EL CUAL SE GUARDA UN MAPA EN UN ARCHIVO
@@ -44,7 +59,7 @@ public class BaseDeDatos<K,T> {
 			}
 		}
 	}
-	
+
 	public void escribirArchivoV2(HashMap<K, T> aguardar) {
 		/*
 		 * METOO EN EL CUAL SE VUELVE A GUARDAR TODO EN EL MAPA
@@ -57,7 +72,7 @@ public class BaseDeDatos<K,T> {
 				Entry<K, T> mapa = (Entry<K, T>)it.next();
 				archivo.writeObject(mapa.getValue());
 			}
-			
+
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -99,7 +114,7 @@ public class BaseDeDatos<K,T> {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			
+
 			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -114,11 +129,11 @@ public class BaseDeDatos<K,T> {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
+
 		}
 		return leer;
 	}
-	
+
 	public ArrayList<T> leerArhivoV2(){
 		/*
 		 * METODO EN EL CUAL SE LEE LO QUE CONTIENE EN UN ARCHIVO
@@ -147,8 +162,8 @@ public class BaseDeDatos<K,T> {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			
-			
+
+
 			//e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -163,7 +178,7 @@ public class BaseDeDatos<K,T> {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
+
 		}
 		return leer;
 	}

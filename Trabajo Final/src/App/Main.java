@@ -14,6 +14,7 @@ import Clases.Habitacion.Disponibilidad;
 import Clases.Habitacion.TipoHabitacion;
 import Clases.Hotel;
 import Clases.Reserva;
+import Excepciones.CodigoDeReservaInexsistente;
 import Excepciones.FaltaCheckIn;
 import Excepciones.HabitacionesNoDisponibles;
 import Excepciones.fechaIncorrecta;
@@ -30,7 +31,7 @@ public class Main {
 
         
         
-        //cargarMapas();
+        cargarMapas();
         recuperarDatosArchivo(); // NO COMENTAR ESTA LINEA PORQUE ES LA QUE RECUPERA LOS DATOS DEL ARCHIVO
         menuIngreso();
         hotel.gaurdarMapasEnArchivos();
@@ -126,11 +127,12 @@ public class Main {
     public static void menuConserje(Empleado empleado) {
         int opc = 0;
         Scanner scan = new Scanner(System.in);
-        while (opc != 4) {
+        while (opc != 5) {
             System.out.println("1_ Reservar");
             System.out.println("2_ Check in");
             System.out.println("3_ Check out");
-            System.out.println("4_ Salir");
+            System.out.println("4_ Cancelar reserva");
+            System.out.println("5_ Volver atras");
             opc = scan.nextInt();
 
             switch (opc) {
@@ -164,27 +166,50 @@ public class Main {
                 case 2:
                     System.out.println("Por favor ingrese el codigo de reserva");
                     String code = scan.next();
-                    Reserva reserva2 = hotel.getReserva(code);
-                    empleado.CheckIn(reserva2);
+                    try {
+                    	hotel.comprobarValidezCodigoDeReservaActiva(code);
+                    	Reserva reserva2 = hotel.getReserva(code);
+                    	empleado.CheckIn(reserva2);
+                    } catch (CodigoDeReservaInexsistente e) {
+						// TODO: handle exception
+                    	System.out.println(e.getMessage());
+					}
                     break;
 
                 case 3:
                 	System.out.println("Por favor ingrese el codigo de reserva");
                     String code2 = scan.next();
-                    Reserva reserva22 = hotel.getReserva(code2);
+                    
                     try {
+                    	hotel.comprobarValidezCodigoDeReservaActiva(code2);
+                    	Reserva reserva22 = hotel.getReserva(code2);
                     	empleado.CheckOut(reserva22);
                     	hotel.setReservaAntiguas(reserva22);
                     	hotel.borrarReservaActiva(reserva22);
                     } catch (FaltaCheckIn e) {
 						// TODO: handle exception
                     	System.out.println(e.getMessage());
-                    }
+                    } catch (CodigoDeReservaInexsistente e) {
+						// TODO: handle exception
+                    	System.out.println(e.getMessage());
+					}
                     break;
 
                 case 4:
-                    System.out.println("-4-");
+                	Scanner sc = new Scanner(System.in);
+                	System.out.println("Por favor ingrese el codigo de reserva");
+                    String code3 = sc.nextLine();
+                    try {
+                    	hotel.eliminarReserva(code3);
+                    }catch (CodigoDeReservaInexsistente e) {
+						// TODO: handle exception
+                    	System.out.println(e.getMessage());
+					}
                     break;
+                    
+                case 5:
+                	
+                	break;
                 default:
 
                     System.out.println("Opcion Incorrecta");
@@ -202,8 +227,9 @@ public class Main {
         TipoHabitacion tipo = null;
         Scanner sc = new Scanner(System.in);
         String bandera = "si";
+        boolean banderaAux = true;
         ArrayList<TipoHabitacion> tipos = new ArrayList<TipoHabitacion>();
-        while(bandera.equals("si")){
+        while(bandera.equals("si")&&(banderaAux)){
         	
         	System.out.println("1_ Simple");
             System.out.println("2_ Doble");
@@ -247,6 +273,9 @@ public class Main {
             System.out.println("");
             System.out.println("Desea reservas otra habitacion? si/no");
             bandera = sc.nextLine();
+            if(!bandera.equalsIgnoreCase("si")) {
+            	banderaAux = false;
+            }
         }
         		
         

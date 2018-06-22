@@ -1,3 +1,9 @@
+/**
+ * CLASE EN LA CUAL SE TRABAJA SOBRE UNA HABITACION
+ * INCLUYE TODOS LOS METODOS PARA PODER MANIPULARLA Y MODIFICARLA
+ */
+
+
 package Clases;
 
 import java.io.Serializable;
@@ -6,6 +12,9 @@ import java.util.HashSet;
 import Excepciones.HabitacionesNoDisponibles;
 
 public class Habitacion implements Serializable {
+	/**
+	 * ATRIBUTOS
+	 */
 	private boolean ocupado;
 	private Disponibilidad disponible;
 	private TipoHabitacion tipo;
@@ -13,7 +22,10 @@ public class Habitacion implements Serializable {
 	private double precio;
 	private Reserva reservaActual;
 	private HashSet<Reserva> reservas;
-	
+
+	/**
+	 * METODOS
+	 */
 	public Habitacion() {
 		/*
 		 * CONSTRUCTOR DE LA HABITACION VACIO, INICIALIZA TODAS SUS VARIABLES
@@ -26,7 +38,7 @@ public class Habitacion implements Serializable {
 		reservas = new HashSet<Reserva>();
 		reservaActual = new Reserva();
 	}
-	
+
 	public Habitacion(TipoHabitacion tipo, double precio,int numero) {
 		/*
 		 * CONSTRUCTOR EN LA CUAL SE RECIBE UN TIPO DE HABITACION EL PRECIO Y EL NUMERO DE LA HABITACION.
@@ -39,7 +51,7 @@ public class Habitacion implements Serializable {
 		reservaActual = null;
 		reservas = new HashSet<Reserva>();
 	}
-	
+
 	public enum TipoHabitacion {
 		/*
 		 *  ENUMERACION EN LA CUAL FIGURA QUE TIPOS DE HABITACIONES SE ENCUENTRAN EN EL HOTEL
@@ -50,7 +62,7 @@ public class Habitacion implements Serializable {
 		CUADRUPLE,
 		SEXTUPLE;
 	}
-	
+
 	public enum Disponibilidad{
 		/*
 		 * ENUMERACION QUE TE DICE EN QUE ESTADO ESTA LA HABITACION
@@ -60,9 +72,9 @@ public class Habitacion implements Serializable {
 		DESINFECCION,
 		REPARACION,
 	}
-	
+
 	@Override
-	
+
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
@@ -95,7 +107,7 @@ public class Habitacion implements Serializable {
 	public void setDisponible(Disponibilidad disponible) {
 		this.disponible = disponible;
 	}
-	
+
 	public boolean getOcupado() {
 		return ocupado;
 	}
@@ -111,15 +123,15 @@ public class Habitacion implements Serializable {
 	public void setPrecio(double precio) {
 		this.precio = precio;
 	}
-	
+
 	public int getNumeroHabitacion() {
 		return numero;
 	}
-	
+
 	public void setReserva(Reserva reserva) {
 		reservas.add(reserva);
 	}
-	
+
 	public boolean fechaDisponible(Reserva reserva, Reserva comprobar) {
 		/*
 		 * METODO EN EL CUAL RECIBE DOS RESERVAS Y EVALUA QUE 
@@ -134,7 +146,7 @@ public class Habitacion implements Serializable {
 		}
 		return true;
 	}
-	
+
 	public boolean habitacionDisponible(Reserva comprobar) {
 		/*
 		 * METODO EN EL CUAL RECIBE UNA RESERVA PARA LUEGO COMPROBAR
@@ -147,7 +159,7 @@ public class Habitacion implements Serializable {
 			if(estado) {
 				estado = fechaDisponible(reserva, comprobar);
 			}else {
-				
+
 				return false;
 			}
 		}
@@ -157,12 +169,18 @@ public class Habitacion implements Serializable {
 	public String toString() {
 		return "Numero: " + numero + " Tipo: " + tipo+ " Estado: "+ocupado+ " Precio: "+precio+ " Disponible: "+disponible;
 	}
-	
+
 	public int longitudReserva() {
+		/**
+		 * TE DEVUELVE DE CUANTOS DIAS ES LA RESERVA
+		 */
 		return reservaActual.longitudReserva();
 	}
-	
+
 	public boolean comprobarQueLaHabitacionNoEsteEnMantenimiento() {
+		/**
+		 * COMPRUEBA QUE LA HABITACION ESTE DISPONIBLE
+		 */
 		boolean estado;
 		if(disponible.equals(Disponibilidad.DISPONIBLE)) {
 			estado = true;
