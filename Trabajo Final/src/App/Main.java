@@ -90,23 +90,29 @@ public class Main {
 
                 case 2:
                 	
-                	ArrayList<TipoHabitacion> tipos = menuTipoHabitacion(); // te devuelve el tipo de habitacion que quiere el cliente
-                    Reserva reserva = ingresoDeReserva(); // te devuelve la reserva con la fecha de inicio y fin
-                    for(TipoHabitacion tipo: tipos) {
-                    	Habitacion habitacion = hotel.reservar(reserva, tipo);
-                    	if (habitacion != null) {
-                            reserva.setHabitacion(habitacion.getNumeroHabitacion());
-                            habitacion.setReserva(reserva); //guarda en el array de reservas que tiene la habitacion
-                            
+                	try {
+                		ArrayList<TipoHabitacion> tipos = menuTipoHabitacion(); // te devuelve el tipo de habitacion que quiere el cliente
+                        Reserva reserva = ingresoDeReserva(); // te devuelve la reserva con la fecha de inicio y fin
+                        for(TipoHabitacion tipo: tipos) {
+                        	Habitacion habitacion = hotel.reservar(reserva, tipo);
+                        	if (habitacion != null) {
+                                reserva.setHabitacion(habitacion.getNumeroHabitacion());
+                                habitacion.setReserva(reserva); //guarda en el array de reservas que tiene la habitacion
+                                
+                            }
                         }
-                    }
+                        
+                        reserva = Main.fijarReserva(reserva); //pide los campos faltantes para terminar la reserva
+                        System.out.println(reserva.toString());
+                        hotel.setReservaActiva(reserva); //guarda en el mapa la nueva reserva;
+                        System.out.println("Ya se registro la reserva! ");
+                        System.out.println("");
+                        //te devuelve la habitacion que esta disponible para esa fecha
+                	}catch (HabitacionesNoDisponibles e) {
+						// TODO: handle exception
+                		System.out.println(e.getMenssage());
+					}
                     
-                    reserva = Main.fijarReserva(reserva); //pide los campos faltantes para terminar la reserva
-                    System.out.println(reserva.toString());
-                    hotel.setReservaActiva(reserva); //guarda en el mapa la nueva reserva;
-                    System.out.println("Ya se registro la reserva! ");
-                    System.out.println("");
-                    //te devuelve la habitacion que esta disponible para esa fecha
 
                     break;
 

@@ -55,9 +55,11 @@ public class Reserva implements Serializable {
         fechaInicio = inicio;
         fechaFin = fin;
     }
+    
     public void setHabitacion(int habitacion){
         habitaciones.add(habitacion);
     }
+    
     public void setCodigoreserva(String codigoReserva) {
         this.codigoReserva = codigoReserva;
     }
@@ -186,12 +188,6 @@ public class Reserva implements Serializable {
 
     public ArrayList<Integer> GetHabitaciones() {
         return habitaciones;
-    }
-
-    public void cobrar() {
-    	for(Integer numero: habitaciones) {
-    		
-    	}
     }
     
     public int longitudReserva() {
